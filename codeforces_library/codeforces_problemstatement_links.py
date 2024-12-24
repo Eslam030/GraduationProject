@@ -12,8 +12,9 @@ class ProblemStatementLinks:
         for problem in data:
             link = 'https://codeforces.com/problemset/problem/' + str(problem['contestId']) + '/' + problem[
                     'index'] + '/'
-            link += " " + str(problem.get('tags'))
-            links.append(link)
+            link += " " + str(problem.get('tags')) + " " + str(problem.get('rating'))
+            if problem.get('rating') and problem.get('rating') < 1600 :
+                links.append(link)
         return links
 
     def upload_problem_links(self):

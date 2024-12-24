@@ -1,5 +1,4 @@
 from bson import ObjectId
-from django.db.models.expressions import result
 from pymongo import MongoClient
 
 # MongoDB connection setup
@@ -28,6 +27,11 @@ def get_problem_by_link (problem_link):
 def delete_problem (problem_id):
     problem_id = ObjectId(problem_id)
     problems_collection.delete_one({"_id": problem_id})
+
+
+def upload_submission (submission_object):
+    solutions_collection.insert_one(submission_object)
+    pass
 
 
 def insert_problem_with_solutions(problem_name, problem_statement, tags, solutions):

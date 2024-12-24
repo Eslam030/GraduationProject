@@ -250,10 +250,10 @@
 # login_codeforces_with_captcha()
 
 
-import undetected_chromedriver as uc
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-import time
+# import undetected_chromedriver as uc
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.keys import Keys
+# import time
 
 # # Your Codeforces credentials
 # USERNAME = "Test12347088@gmail.com"  # Replace with your actual username
@@ -342,10 +342,41 @@ Scrapping the problemstatment from each link
 
 
 from codeforces_library.codeforces_submission_links import SubmissionLinks
-from codeforces_scraper.db_setup import problems_collection
-objects = problems_collection.find()
-for object in objects:
-    SubmissionLinks().upload_submission_links(object)
-    # print(object)
-    break
+import undetected_chromedriver as uc
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+from codeforces_scraper.db_setup import upload_submission
+
+
+USERNAME = "3DX2Y"  # Replace with your actual username
+PASSWORD = "Ali115115"  # Replace with your actual password
+URL = "https://codeforces.com/enter?back=%2F"
+driver = uc.Chrome()
+driver.get(URL)
+time.sleep(14)
+driver.find_element(By.NAME, "handleOrEmail").send_keys(USERNAME)
+driver.find_element(By.NAME, "password").send_keys(PASSWORD)
+driver.find_element(By.NAME, "password").send_keys(Keys.RETURN)
+time.sleep(5)
+with open ("problem_links.txt" , "r") as f:
+    lines = f.readlines()
+    for line in lines :
+        link = ""
+        for char in line :
+            if char == " " :
+                break
+            link += char
+        SubmissionLinks(driver).upload_submission_links(link)
+
+
+
+
+
+#
+# for object in objects:
+#     SubmissionLinks().upload_submission_links(object)
+#
+#     # print(object)
+#     break
 # SubmissionLinks().upload_submission_links(problem.get('_id'))
