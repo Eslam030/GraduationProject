@@ -1,3 +1,4 @@
+import time
 import requests
 import json
 from codeforces_scraper.db_setup import delete_problem
@@ -6,13 +7,10 @@ class SubmissionLinks :
     def __init__(self , driver):
         self.sub = Submissions(driver)
 
-    def get_from_handle_submission (self , handle , project_object) :
-        pass
-
-    def upload_submission_links (self , problem_object) :
-        problem_link = problem_object.get('link').split('/')
-        contest_id = problem_link[-3]
-        problem_index = problem_link[-2]
+    def upload_submission_links (self , problem_link) :
+        problem_link_split = problem_link.split('/')
+        contest_id = problem_link_split[-3]
+        problem_index = problem_link_split[-2]
         print(contest_id , problem_index)
 
         standing_link = f"https://codeforces.com/api/contest.standings?contestId={contest_id}&from=1&showUnofficial=true"
@@ -26,7 +24,7 @@ class SubmissionLinks :
                 wanted_index = current_index
                 break
             current_index += 1
-        standing = response['result']['rows'][:20]
+        standing = response['result']['rows']
         for stand in standing :
             handle = None
 
@@ -46,5 +44,6 @@ class SubmissionLinks :
                     if submission.get('contestId') == int(contest_id) and submission.get('verdict') == "OK" and submission.get('problem').get('index') == problem_index :
                         submission_link = f"https://codeforces.com/contest/{contest_id}/submission/{submission['id']}"
                         print(submission_link)
-                        self.sub.get_submission_code(submission_link)
+                        self.sub.get_submission_code(problem_link , submission_link , handle)
+                        time.sleep(10)
 

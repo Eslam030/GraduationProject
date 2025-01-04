@@ -328,6 +328,8 @@
 """
 Getting Problemstatment links and upload it in problem_links.txt
 """
+from selenium.webdriver import ActionChains
+
 # from codeforces_library.codeforces_problemstatement_links import ProblemStatementLinks
 # ProblemStatementLinks().upload_problem_links()
 """
@@ -349,16 +351,23 @@ import time
 from codeforces_scraper.db_setup import upload_submission
 
 
-USERNAME = "3DX2Y"  # Replace with your actual username
-PASSWORD = "Ali115115"  # Replace with your actual password
-URL = "https://codeforces.com/enter?back=%2F"
+USERNAME = "X_Bassem_X"  # Replace with your actual username
+PASSWORD = "1357dcba"  # Replace with your actual password
+URL = "https://codeforces.com"
 driver = uc.Chrome()
 driver.get(URL)
-time.sleep(14)
+actions = ActionChains(driver)
+actions.key_down(Keys.CONTROL).send_keys('t').key_up(Keys.CONTROL).perform()
+time.sleep(30)
+tabs = driver.window_handles
+driver.switch_to.window(tabs[-1])
+time.sleep(10)
 driver.find_element(By.NAME, "handleOrEmail").send_keys(USERNAME)
 driver.find_element(By.NAME, "password").send_keys(PASSWORD)
 driver.find_element(By.NAME, "password").send_keys(Keys.RETURN)
 time.sleep(5)
+
+
 with open ("problem_links.txt" , "r") as f:
     lines = f.readlines()
     for line in lines :

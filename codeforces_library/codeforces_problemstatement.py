@@ -14,7 +14,10 @@ import time
 
 from codeforces_scraper.db_setup import problems_collection
 
-
+# TODO:// Fix math tag problem
+# solutions provided
+# 1- modify the whole html object
+# 2- construct the text as tree nodes
 class ProblemStatement :
     def __init__(self ,):
         # driver_path = 'D:\\moviies\\testcases\\New\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe'  # Change this to the path of your ChromeDriver
