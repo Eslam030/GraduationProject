@@ -2,19 +2,15 @@ import requests
 import json
 from codeforces_scraper.db_setup import delete_problem
 from .codeforces_submission import Submissions
-
-
 class SubmissionLinks :
     def __init__(self , driver):
-        self.subs = Submissions(driver)
+        self.sub = Submissions(driver)
 
-    # def get_from_handle_submission (self , handle , project_object) :
-    #     pass
+    def get_from_handle_submission (self , handle , project_object) :
+        pass
 
-
-    def upload_submission_links (self , link) :
-        problem_link_to_use = link
-        problem_link = link.split('/')
+    def upload_submission_links (self , problem_object) :
+        problem_link = problem_object.get('link').split('/')
         contest_id = problem_link[-3]
         problem_index = problem_link[-2]
         print(contest_id , problem_index)
@@ -30,8 +26,7 @@ class SubmissionLinks :
                 wanted_index = current_index
                 break
             current_index += 1
-        standing = response['result']['rows']
-        number_of_solutions = 0
+        standing = response['result']['rows'][:20]
         for stand in standing :
             handle = None
 
@@ -50,9 +45,6 @@ class SubmissionLinks :
                 for submission in response['result']:
                     if submission.get('contestId') == int(contest_id) and submission.get('verdict') == "OK" and submission.get('problem').get('index') == problem_index :
                         submission_link = f"https://codeforces.com/contest/{contest_id}/submission/{submission['id']}"
-                        # self.get_from_handle_submission(submission_link)
-                        self.subs.get_submission_code(problem_link_to_use , submission_link , handle)
-                        number_of_solutions += 1
+                        print(submission_link)
+                        self.sub.get_submission_code(submission_link)
 
-            if number_of_solutions > 3 :
-                break

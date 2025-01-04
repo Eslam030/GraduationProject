@@ -9,6 +9,12 @@ class Submissions :
     def __init__ (self , driver) :
         self.driver = driver
 
+    def log_submission_data (self , problem_link , submission_link , author) :
+        with open("submission_logging.txt" , "a") as f :
+            f.write(f"{problem_link} {submission_link} {author}\n")
+            # if the program crashed we will start from this problem link
+            # and get its authors but we will not start scrapping until we get this author
+            f.close()
 
     def get_submission_code (self , problem_link , submission_link , author):
         self.driver.get(submission_link)
@@ -32,6 +38,8 @@ class Submissions :
         }
 
         upload_submission(submission_object)
+
+        self.log_submission_data(problem_link , submission_link , author)
 
 
 

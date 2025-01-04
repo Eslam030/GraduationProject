@@ -25,7 +25,6 @@ class ProblemStatement :
     def scrap_the_tag (self , node) :
         children = node.find_elements(By.XPATH, "./*")
 
-
         for child in children :
             self.scrap_the_tag(child)
 
@@ -40,13 +39,13 @@ class ProblemStatement :
                 0].text
             memory_limit = self.driver.find_elements(By.CSS_SELECTOR, '.problem-statement > :nth-child(1) > :nth-child(3)')[
                 0].text
-            problem_statement = self.driver.find_elements(By.CSS_SELECTOR, '.problem-statement > :nth-child(2)')[0].get_attribute('innerHTML')
+            problem_statement = self.driver.find_elements(By.CSS_SELECTOR, '.problem-statement > :nth-child(2)')[0].text
 
             # print(self.driver.find_elements(By.CSS_SELECTOR, '.problem-statement > :nth-child(2)')[0])
             print(problem_statement)
 
 
-            return
+            # return
 
             input_constraint = self.driver.find_elements(By.CSS_SELECTOR, '.problem-statement > :nth-child(3)')[0].text
             output_constraint = self.driver.find_elements(By.CSS_SELECTOR, '.problem-statement > :nth-child(4)')[0].text
